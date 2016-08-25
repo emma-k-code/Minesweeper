@@ -1,0 +1,36 @@
+#showTable tr td {
+    border: 1px solid black;
+}
+#reStart {
+    margin-top: 0px;
+}
+#content {
+    color: white;
+}
+.zero {
+    background-color: #00b33c;
+}
+.number {
+    background-color: green;
+}
+.m {
+    background-color: red;
+}
+.boom {
+    background-color: yellow;
+}
+.boom #content {
+    color: black;
+}
+.onMap {
+    background-color: #f0f0f5;
+}
+.outMap {
+    background-color: #ffffff;
+}
+div {
+    float: none;
+    margin: 0 auto;
+    padding-top: 40px;
+    text-align: center;
+}
