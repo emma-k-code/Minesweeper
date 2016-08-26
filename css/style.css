@@ -7,21 +7,6 @@
 #content {
     color: white;
 }
-.zero {
-    background-color: #00b33c;
-}
-.number {
-    background-color: green;
-}
-.m {
-    background-color: red;
-}
-.boom {
-    background-color: yellow;
-}
-.boom #content {
-    color: black;
-}
 .onMap {
     background-color: #f0f0f5;
 }

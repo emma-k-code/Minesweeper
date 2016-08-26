@@ -82,15 +82,14 @@ function clickMap() {
     }
 
     $(this).removeClass();
-    $(this).addClass('number');
+    print(2, $(this));
     $(this).find('#content').show();
 
     if ($(this).find('#content').text().trim() == '') {
         var trIndex = $(this).closest('tr').index();
         var tdIndex = $(this).closest('td').index();
 
-        $(this).removeClass();
-        $(this).addClass('zero');
+        print(3, $(this));
 
         openAround(trIndex, tdIndex);
     }
@@ -115,18 +114,8 @@ function clickMap() {
 
         if (i == 0) {
             $('#showTable td').each(function() {
-                if ($(this).find('#content').text().trim() == 'M') {
-                    $(this).removeClass();
-                    $(this).addClass('m');
-                } else if($(this).find('#content').text().trim() == '') {
-                    $(this).removeClass();
-                    $(this).addClass('zero');
-                } else {
-                    $(this).removeClass();
-                    $(this).addClass('number');
-                }
-                $(this).find('#content').show();
                 $(this).find('#flag').hide();
+                checkPoint($(this));
             });
 
             return true;
@@ -135,22 +124,11 @@ function clickMap() {
 
     function checkOver(point) {
         $('#showTable td').each(function() {
-            if ($(this).find('#content').text().trim() == 'M') {
-                $(this).removeClass();
-                $(this).addClass('m');
-            } else if($(this).find('#content').text().trim() == '') {
-                $(this).removeClass();
-                $(this).addClass('zero');
-            } else {
-                $(this).removeClass();
-                $(this).addClass('number');
-            }
-            $(this).find('#content').show();
             $(this).find('#flag').hide();
+            checkPoint($(this));
         });
 
-        point.removeClass();
-        point.addClass('boom');
+        print(4, point);
         alert('遊戲結束');
     }
 
@@ -159,13 +137,7 @@ function clickMap() {
         if (trIndex != 0) {
             // 上
             if ($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex).find('#flag').is(':hidden')) {
-                $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex).removeClass();
-                $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex).find('#content').show();
-                if ($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex).find('#content').text().trim() == '') {
-                    $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex).addClass('zero');
-                } else {
-                    $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex).addClass('number');
-                }
+                checkPoint($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex));
             }
 
 
@@ -173,25 +145,13 @@ function clickMap() {
             if (tdIndex != 0) {
                 // 左上
                 if ($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex-1).find('#flag').is(':hidden')) {
-                    $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex-1).removeClass();
-                    $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex-1).find('#content').show();
-                    if ($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex-1).find('#content').text().trim() == '') {
-                        $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex-1).addClass('zero');
-                    } else {
-                        $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex-1).addClass('number');
-                    }
+                    checkPoint($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex-1));
                 }
             }
 
             // 右上
             if ($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex+1).find('#flag').is(':hidden')) {
-                $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex+1).removeClass();
-                $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex+1).find('#content').show();
-                if ($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex+1).find('#content').text().trim() == '') {
-                    $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex+1).addClass('zero');
-                } else {
-                    $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex+1).addClass('number');
-                }
+                checkPoint($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex+1));
             }
         }
 
@@ -199,56 +159,75 @@ function clickMap() {
         if (tdIndex != 0) {
             // 左
             if ($('#showTable tr').eq(trIndex).find('td').eq(tdIndex-1).find('#flag').is(':hidden')) {
-                $('#showTable tr').eq(trIndex).find('td').eq(tdIndex-1).removeClass();
-                $('#showTable tr').eq(trIndex).find('td').eq(tdIndex-1).find('#content').show();
-                if ($('#showTable tr').eq(trIndex).find('td').eq(tdIndex-1).find('#content').text().trim() == '') {
-                    $('#showTable tr').eq(trIndex).find('td').eq(tdIndex-1).addClass('zero');
-                } else {
-                    $('#showTable tr').eq(trIndex).find('td').eq(tdIndex-1).addClass('number');
-                }
+                checkPoint($('#showTable tr').eq(trIndex).find('td').eq(tdIndex-1));
             }
             // 左下
             if ($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex-1).find('#flag').is(':hidden')) {
-                $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex-1)
-                $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex-1).find('#content').show();
-                if ($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex-1).find('#content').text().trim() == '') {
-                    $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex-1).addClass('zero');
-                } else {
-                    $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex-1).addClass('number');
-                }
+                checkPoint($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex-1));
             }
         }
 
         // 右
-        if ($('#showTable tr').eq(trIndex).find('td').eq(tdIndex+1).find('#flag').is(':hidden')) {
-            $('#showTable tr').eq(trIndex).find('td').eq(tdIndex+1).removeClass();
-            $('#showTable tr').eq(trIndex).find('td').eq(tdIndex+1).find('#content').show();
-            if ($('#showTable tr').eq(trIndex).find('td').eq(tdIndex+1).find('#content').text().trim() == '') {
-                $('#showTable tr').eq(trIndex).find('td').eq(tdIndex+1).addClass('zero');
+        checkPoint($('#showTable tr').eq(trIndex).find('td').eq(tdIndex+1));
+        // 右下
+        checkPoint($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex+1));
+        // 下
+        checkPoint($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex));
+
+    }
+
+    function checkPoint(point) {
+        if (point.find('#flag').is(':hidden')) {
+            point.find('#content').show();
+            if (point.find('#content').text().trim() == '') {
+                print(3, point) ;
+            } else if (point.find('#content').text().trim() == 'M') {
+                print(1, point);
             } else {
-                $('#showTable tr').eq(trIndex).find('td').eq(tdIndex+1).addClass('number');
+                print(2, point);
             }
+        }
+    }
+
+    function print(color, point) {
+        if (color == 1) {
+            color = {
+                'background':'#ff0000',
+                'background':'-webkit-radial-gradient(left top, #ff0000, #b30000)',
+                'background':'-o-linear-gradient(bottom right, #ff0000, #b30000)',
+                'background':'-moz-linear-gradient(bottom right, #ff0000, #b30000)',
+                'background':'linear-gradient(to bottom right, #ff0000, #b30000)',
+            };
+        }
+        if (color == 2) {
+            color = {
+                'background':'#0000cc',
+                'background':'-webkit-radial-gradient(left top, #0000cc, #4d4dff)',
+                'background':'-o-linear-gradient(bottom right, #0000cc, #4d4dff)',
+                'background':'-moz-linear-gradient(bottom right, #0000cc, #4d4dff)',
+                'background':'linear-gradient(to bottom right, #0000cc, #4d4dff)',
+            };
+        }
+        if (color == 3) {
+            color = {
+                'background':'#99ccff',
+                'background':'-webkit-radial-gradient(left top, #99ccff, #cce6ff)',
+                'background':'-o-linear-gradient(bottom right, #99ccff, #cce6ff)',
+                'background':'-moz-linear-gradient(bottom right, #99ccff, #cce6ff)',
+                'background':'linear-gradient(to bottom right, #99ccff, #cce6ff)',
+            };
+        }
+        if (color == 4) {
+            color = {
+                'background':'#99ccff',
+                'background':'-webkit-radial-gradient(left top, #ffff00, #ffcc00)',
+                'background':'-o-linear-gradient(bottom right, #ffff00, #ffcc00)',
+                'background':'-moz-linear-gradient(bottom right, #ffff00, #ffcc00)',
+                'background':'linear-gradient(to bottom right, #ffff00, #ffcc00)',
+            };
+            point.find('#content').prop('style', 'color: black');
         }
 
-        // 右下
-        if ($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex+1).find('#flag').is(':hidden')) {
-            $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex+1).removeClass();
-            $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex+1).find('#content').show();
-            if ($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex+1).find('#content').text().trim() == '') {
-                $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex+1).addClass('zero');
-            } else {
-                $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex+1).addClass('number');
-            }
-        }
-        // 下
-        if ($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex).find('#flag').is(':hidden')) {
-            $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex).removeClass();
-            $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex).find('#content').show();
-            if ($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex).find('#content').text().trim() == '') {
-                $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex).addClass('zero');
-            } else {
-                $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex).addClass('number');
-            }
-        }
+        point.css(color);
     }
 }
