@@ -229,7 +229,13 @@ function checkOver(point) {
     $("#myModal").modal('show');
 
     $('#showTable td').each(function() {
-        $(this).find('#flag').hide();
+        if ($(this).find('#flag').is(':visible')) {
+            $(this).find('#flag').hide();
+            if ($(this).find('#content').text().trim() != 'M') {
+                $(this).find('#content').text('');
+                $(this).find('#content').addClass('glyphicon glyphicon-remove');
+            }
+        }
         var color = checkPoint($(this));
         print(color, $(this));
     });
