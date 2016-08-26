@@ -6,6 +6,10 @@
 }
 #content {
     color: white;
+    font-size: 16px;
+}
+#flag {
+    font-size: 16px;
 }
 .onMap {
     background-color: #f0f0f5;

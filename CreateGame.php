@@ -15,8 +15,8 @@ if ($row <= 0 || $column <= 0 || $m <= 0) {
 
 $total = $row * $column;
 
-if ($m > $total) {
-    echo '地雷數不可大於方格數量';
+if ($m >= $total) {
+    echo '地雷數不可大等於方格數量';
     return;
 }
 
@@ -39,10 +39,15 @@ $showMap = $map->createMap($row,$column,$m);
             }
         ?>
         </span>
-        <span id="flag" style="display:none">
-            F
+        <span id="icon" style="display:none;">
         </span>
-
+        <?php
+            if ($showMap[$key] === 'M') {
+                echo '<img id="imgM" src="icon/bomb.png" height="36 width="36" style="display:none;">';
+            }
+        ?>
+        <span id="flag" class="glyphicon glyphicon-flag" style="display:none">
+        </span>
         </td>
 
     <?php endfor ?>

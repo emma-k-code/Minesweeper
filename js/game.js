@@ -187,7 +187,7 @@ function clickMap() {
 
     if (checkPass()) {
         $("#myModal .modal-title").text('過關');
-        $("#myModal .modal-body p").text('過關!!!');
+        // $("#myModal .modal-body p").text('過關!!!');
         $("#myModal").modal('show');
 
         $('#showTable td').each(function() {
@@ -227,16 +227,14 @@ function checkPass() {
 }
 
 function checkOver(point) {
-    $("#myModal .modal-title").text('Game Over');
-    $("#myModal .modal-body p").text('遊戲結束');
-    $("#myModal").modal('show');
-
     $('#showTable td').each(function() {
         if ($(this).find('#flag').is(':visible')) {
             $(this).find('#flag').hide();
             if ($(this).find('#content').text().trim() != 'M') {
                 $(this).find('#content').text('');
-                $(this).find('#content').addClass('glyphicon glyphicon-remove');
+                $(this).find('#content').show();
+                $(this).find('#icon').addClass('glyphicon glyphicon-remove');
+                $(this).find('#icon').show();
             }
         }
         var color = checkPoint($(this));
@@ -244,6 +242,8 @@ function checkOver(point) {
     });
 
     print(4, point);
+    $("#myModal .modal-title").text('Game Over');
+    $("#myModal").modal('show');
 }
 
 function aroundPoint(trIndex, tdIndex) {
@@ -326,8 +326,7 @@ function aroundPoint(trIndex, tdIndex) {
 
     if (checkPass()) {
         $("#myModal .modal-title").text('過關');
-        $("#myModal .modal-title").addClass('modal-header-success');
-        $("#myModal .modal-body p").text('過關!!!');
+        // $("#myModal .modal-body p").text('過關!!!');
         $("#myModal").modal('show');
 
         $('#showTable td').each(function() {
@@ -387,6 +386,8 @@ function print(color, point) {
             'background':'-moz-linear-gradient(bottom right, #ff0000, #b30000)',
             'background':'linear-gradient(to bottom right, #ff0000, #b30000)',
         };
+        point.find('#imgM').show();
+        point.find('#content').text('');
     }
     if (color == 2) {
         color = {
@@ -414,11 +415,17 @@ function print(color, point) {
             'background':'-moz-linear-gradient(bottom right, #ffff00, #ffcc00)',
             'background':'linear-gradient(to bottom right, #ffff00, #ffcc00)',
         };
+        point.find('#imgM').hide();
         point.find('#content').prop('style', 'color: black');
+        point.find('#icon').addClass('glyphicon glyphicon-fire');
+        point.find('#icon').show();
     }
 
     if (color != 0) {
         point.css(color);
-        point.find('#content').show();
+        if (point.find('#icon').is(':hidden')) {
+            point.find('#content').show();
+        }
+
     }
 }
