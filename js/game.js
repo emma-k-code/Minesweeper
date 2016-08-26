@@ -91,10 +91,16 @@ function clickMap() {
 
         print(3, $(this));
 
-        openAround(trIndex, tdIndex);
+        var point = aroundPoint(trIndex, tdIndex);
+        openAround(point);
     }
 
     if (checkPass()) {
+        $('#showTable td').each(function() {
+            $(this).find('#flag').hide();
+            var color = checkPoint($(this));
+            print(color, $(this));
+        });
         alert('過關!!!');
     }
 
@@ -113,11 +119,6 @@ function clickMap() {
         });
 
         if (i == 0) {
-            $('#showTable td').each(function() {
-                $(this).find('#flag').hide();
-                checkPoint($(this));
-            });
-
             return true;
         }
     }
@@ -125,68 +126,70 @@ function clickMap() {
     function checkOver(point) {
         $('#showTable td').each(function() {
             $(this).find('#flag').hide();
-            checkPoint($(this));
+            var color = checkPoint($(this));
+            print(color, $(this));
         });
 
         print(4, point);
         alert('遊戲結束');
     }
 
-    function openAround(trIndex, tdIndex) {
+    function aroundPoint(trIndex, tdIndex) {
+        var point = [];
+
         // 判斷是否為最上方
         if (trIndex != 0) {
             // 上
-            if ($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex).find('#flag').is(':hidden')) {
-                checkPoint($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex));
-            }
-
+            point.push($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex));
 
             // 判斷是否為最左側
             if (tdIndex != 0) {
                 // 左上
-                if ($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex-1).find('#flag').is(':hidden')) {
-                    checkPoint($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex-1));
-                }
+                point.push($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex-1));
             }
 
             // 右上
-            if ($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex+1).find('#flag').is(':hidden')) {
-                checkPoint($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex+1));
-            }
+            point.push($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex+1));
         }
 
         // 判斷是否為最左側
         if (tdIndex != 0) {
             // 左
-            if ($('#showTable tr').eq(trIndex).find('td').eq(tdIndex-1).find('#flag').is(':hidden')) {
-                checkPoint($('#showTable tr').eq(trIndex).find('td').eq(tdIndex-1));
-            }
+            point.push($('#showTable tr').eq(trIndex).find('td').eq(tdIndex-1));
             // 左下
-            if ($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex-1).find('#flag').is(':hidden')) {
-                checkPoint($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex-1));
-            }
+            point.push($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex-1));
         }
 
         // 右
-        checkPoint($('#showTable tr').eq(trIndex).find('td').eq(tdIndex+1));
+        point.push($('#showTable tr').eq(trIndex).find('td').eq(tdIndex+1));
         // 右下
-        checkPoint($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex+1));
+        point.push($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex+1));
         // 下
-        checkPoint($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex));
+        point.push($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex));
 
+        return point;
+    }
+
+    function openAround(point) {
+        $.each(point, function() {
+            var color = checkPoint($(this));
+            print(color, $(this));
+        });
     }
 
     function checkPoint(point) {
         if (point.find('#flag').is(':hidden')) {
             point.find('#content').show();
             if (point.find('#content').text().trim() == '') {
-                print(3, point) ;
+                return 3;
             } else if (point.find('#content').text().trim() == 'M') {
-                print(1, point);
+                return 1;
             } else {
-                print(2, point);
+                return 2;
             }
         }
+
+        return 0;
     }
 
     function print(color, point) {
@@ -228,6 +231,8 @@ function clickMap() {
             point.find('#content').prop('style', 'color: black');
         }
 
-        point.css(color);
+        if (color != 0) {
+            point.css(color);
+        }
     }
 }
