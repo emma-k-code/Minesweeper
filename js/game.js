@@ -185,20 +185,19 @@ function clickMap() {
         aroundPoint(trIndex, tdIndex);
     }
 
-    if (checkPass()) {
-        $("#myModal .modal-title").text('過關');
-        // $("#myModal .modal-body p").text('過關!!!');
-        $("#myModal").modal('show');
+    if ($(this).find('#content').text().trim() == 'M') {
+        checkOver($(this));
+    }
 
+    if (checkPass()) {
         $('#showTable td').each(function() {
             $(this).find('#flag').hide();
             var color = checkPoint($(this));
             print(color, $(this));
         });
-    }
 
-    if ($(this).find('#content').text().trim() == 'M') {
-        checkOver($(this));
+        $("#myModal .modal-title").text('過關');
+        $("#myModal").modal('show');
     }
 }
 
@@ -325,15 +324,13 @@ function aroundPoint(trIndex, tdIndex) {
     openZeroAround(zeroPoint);
 
     if (checkPass()) {
-        $("#myModal .modal-title").text('過關');
-        // $("#myModal .modal-body p").text('過關!!!');
-        $("#myModal").modal('show');
-
         $('#showTable td').each(function() {
             $(this).find('#flag').hide();
             var color = checkPoint($(this));
             print(color, $(this));
         });
+        $("#myModal .modal-title").text('過關');
+        $("#myModal").modal('show');
     }
 }
 

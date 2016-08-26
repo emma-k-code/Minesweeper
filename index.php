@@ -32,12 +32,12 @@
         <label for="row">寬：</label><input type="number" min="0" name="row" id="row" value="9"/>
         <label for="m">地雷數：</label><input type="number" min="0" name="m" id="m" value="10"/>
         <br>
-        <button id="primary">初級</button>
-        <button id="middle">中級</button>
-        <button id="high">高級</button>
+        <button id="primary" class="btn btn-default">初級</button>
+        <button id="middle" class="btn btn-default">中級</button>
+        <button id="high" class="btn btn-default">高級</button>
     </div>
     <div class="row">
-        <button id="start">開始</button>
+        <button id="start" class="btn btn-default btn-lg" >開始</button>
     </div>
 
     </div>

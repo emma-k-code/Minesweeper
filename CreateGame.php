@@ -8,8 +8,12 @@ $row = $_GET['row'];
 $column = $_GET['column'];
 $m = $_GET['m'];
 
-if ($row <= 0 || $column <= 0 || $m <= 0) {
-    echo '輸入的數字不可小於等於0';
+if ($row <= 1 || $column <= 1) {
+    echo '長寬不可小於等於1';
+    return;
+}
+if ($m <= 0) {
+    echo '地雷數不可小於1';
     return;
 }
 
