@@ -143,16 +143,10 @@ function dbClickMap() {
     }
 
     if (pNumber == flag) {
-        $.each(point, function() {
-            if ($(this).find('#content').is(':hidden')) {
-                var color = checkPoint($(this));
-                print(color, $(this));
+        var trIndex = $(this).closest('tr').index();
+        var tdIndex = $(this).closest('td').index();
 
-                if (color == 1) {
-                    checkOver($(this));
-                }
-            }
-        });
+        aroundPoint(trIndex, tdIndex);
     }
 
 }
@@ -320,21 +314,41 @@ function aroundPoint(trIndex, tdIndex) {
 
     openAround(point);
     openZeroAround(zeroPoint);
+
+    if (checkPass()) {
+        $("#myModal .modal-title").text('過關');
+        $("#myModal .modal-body p").text('過關!!!');
+        $("#myModal").modal('show');
+
+        $('#showTable td').each(function() {
+            $(this).find('#flag').hide();
+            var color = checkPoint($(this));
+            print(color, $(this));
+        });
+    }
 }
 
 function openAround(point) {
     $.each(point, function() {
-        if ($(this).find('#content').is(':hidden')) {
-            print(2, $(this));
+        if ($(this).find('#flag').is(':hidden')) {
+            if ($(this).find('#content').is(':hidden')) {
+                if ($(this).find('#content').text().trim() == 'M') {
+                    checkOver($(this));
+                } else {
+                    print(2, $(this));
+                }
+            }
         }
     });
 }
 
 function openZeroAround(point) {
     $.each(point, function() {
-        if ($(this).find('#content').is(':hidden')) {
-            print(3, $(this));
-            openAround(aroundPoint($(this).closest('tr').index(), $(this).closest('td').index()));
+        if ($(this).find('#flag').is(':hidden')) {
+            if ($(this).find('#content').is(':hidden')) {
+                print(3, $(this));
+                openAround(aroundPoint($(this).closest('tr').index(), $(this).closest('td').index()));
+            }
         }
     });
 }
