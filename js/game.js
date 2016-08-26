@@ -203,6 +203,15 @@ function clickMap() {
 }
 
 function checkPass() {
+    gameover = true;
+    $('#showTable td').each(function() {
+        if ($(this).find('#content').is(':hidden')) {
+            gameover = false;
+        }
+    });
+    if (gameover) {
+        return;
+    }
     var i = 0
     $('#showTable td').each(function() {
         if ($(this).find('#content').is(':hidden')) {
@@ -317,6 +326,7 @@ function aroundPoint(trIndex, tdIndex) {
 
     if (checkPass()) {
         $("#myModal .modal-title").text('過關');
+        $("#myModal .modal-title").addClass('modal-header-success');
         $("#myModal .modal-body p").text('過關!!!');
         $("#myModal").modal('show');
 
