@@ -101,7 +101,9 @@ function clickMap() {
             var color = checkPoint($(this));
             print(color, $(this));
         });
-        alert('過關!!!');
+        $("#myModal .modal-title").text('過關');
+        $("#myModal .modal-body p").text('過關!!!');
+        $("#myModal").modal('show');
     }
 
     if ($(this).find('#content').text().trim() == 'M') {
@@ -131,7 +133,10 @@ function clickMap() {
         });
 
         print(4, point);
-        alert('遊戲結束');
+
+        $("#myModal .modal-title").text('Game Over');
+        $("#myModal .modal-body p").text('遊戲結束');
+        $("#myModal").modal('show');
     }
 
     function aroundPoint(trIndex, tdIndex) {
