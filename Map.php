@@ -21,9 +21,14 @@ class Map
         $map = array_fill(1, $total, 0);
 
         $rand = array_rand($map, $m);
-        foreach ($rand as $value) {
-            $map[$value] = 'M';
+        if (is_array($rand)) {
+            foreach ($rand as $value) {
+                $map[$value] = 'M';
+            }
+        } else {
+            $map[$rand] = 'M';
         }
+
 
         foreach ($map as $key=>$value) {
             if ($value === 0) {

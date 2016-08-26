@@ -82,8 +82,8 @@ function clickMap() {
     }
 
     $(this).removeClass();
+
     print(2, $(this));
-    $(this).find('#content').show();
 
     if ($(this).find('#content').text().trim() == '') {
         var trIndex = $(this).closest('tr').index();
@@ -91,8 +91,7 @@ function clickMap() {
 
         print(3, $(this));
 
-        var point = aroundPoint(trIndex, tdIndex);
-        openAround(point);
+        aroundPoint(trIndex, tdIndex);
     }
 
     if (checkPass()) {
@@ -141,44 +140,97 @@ function clickMap() {
 
     function aroundPoint(trIndex, tdIndex) {
         var point = [];
+        var zeroPoint = [];
 
         // 判斷是否為最上方
         if (trIndex != 0) {
             // 上
-            point.push($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex));
+            p = $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex);
+            if (p.find('#content').text().trim() == '') {
+                zeroPoint.push(p);
+            } else {
+                point.push(p);
+            }
+
 
             // 判斷是否為最左側
             if (tdIndex != 0) {
                 // 左上
-                point.push($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex-1));
+                p = $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex-1);
+                if (p.find('#content').text().trim() == '') {
+                    zeroPoint.push(p);
+                } else {
+                    point.push(p);
+                }
             }
 
             // 右上
-            point.push($('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex+1));
+            p = $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex+1);
+            if (p.find('#content').text().trim() == '') {
+                zeroPoint.push(p);
+            } else {
+                point.push(p);
+            }
         }
 
         // 判斷是否為最左側
         if (tdIndex != 0) {
             // 左
-            point.push($('#showTable tr').eq(trIndex).find('td').eq(tdIndex-1));
+            p = $('#showTable tr').eq(trIndex).find('td').eq(tdIndex-1);
+            if (p.find('#content').text().trim() == '') {
+                zeroPoint.push(p);
+            } else {
+                point.push(p);
+            }
             // 左下
-            point.push($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex-1));
+            p = $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex-1);
+            if (p.find('#content').text().trim() == '') {
+                zeroPoint.push(p);
+            } else {
+                point.push(p);
+            }
         }
 
         // 右
-        point.push($('#showTable tr').eq(trIndex).find('td').eq(tdIndex+1));
+        p = $('#showTable tr').eq(trIndex).find('td').eq(tdIndex+1);
+        if (p.find('#content').text().trim() == '') {
+            zeroPoint.push(p);
+        } else {
+            point.push(p);
+        }
         // 右下
-        point.push($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex+1));
+        p = $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex+1);
+        if (p.find('#content').text().trim() == '') {
+            zeroPoint.push(p);
+        } else {
+            point.push(p);
+        }
         // 下
-        point.push($('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex));
+        p = $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex);
+        if (p.find('#content').text().trim() == '') {
+            zeroPoint.push(p);
+        } else {
+            point.push(p);
+        }
 
-        return point;
+        openAround(point);
+        openZeroAround(zeroPoint);
     }
 
     function openAround(point) {
         $.each(point, function() {
-            var color = checkPoint($(this));
-            print(color, $(this));
+            if ($(this).find('#content').is(':hidden')) {
+                print(2, $(this));
+            }
+        });
+    }
+
+    function openZeroAround(point) {
+        $.each(point, function() {
+            if ($(this).find('#content').is(':hidden')) {
+                print(3, $(this));
+                openAround(aroundPoint($(this).closest('tr').index(), $(this).closest('td').index()));
+            }
         });
     }
 
@@ -198,6 +250,8 @@ function clickMap() {
     }
 
     function print(color, point) {
+
+        // 1-M 2-Number 3-Zero 4-Boom
         if (color == 1) {
             color = {
                 'background':'#ff0000',
@@ -238,6 +292,7 @@ function clickMap() {
 
         if (color != 0) {
             point.css(color);
+            point.find('#content').show();
         }
     }
 }
