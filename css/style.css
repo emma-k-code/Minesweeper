@@ -1,4 +1,5 @@
 #showTable {
+    border-collapse: collapse;
     cursor: default;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none;   /* Chrome/Safari/Opera */
@@ -7,7 +8,7 @@
     -ms-user-select: none;       /* Internet Explorer/Edge */
     user-select: none;
 }
-#showTable tr td {
+tr td {
     border: 1px solid black;
 }
 #reStart {
@@ -23,8 +24,8 @@
 .onMap {
     background-color: #f0f0f5;
 }
-.outMap {
-    background-color: #ffffff;
+.checkArount {
+    border: 2px ridge red;
 }
 .row button {
     margin-top: 12px;

@@ -49,7 +49,6 @@ function onMap() {
     if ($(this).find('#content').is(':visible')) {
         return;
     }
-    $(this).removeClass();
     $(this).addClass('onMap');
 }
 
@@ -61,14 +60,7 @@ function outMap() {
     $(this).addClass('outMap');
 }
 
-function dbClickMap() {
-    if ($(this).find('#content').is(':hidden')) {
-        return;
-    }
-
-    var pNumber = $(this).find('#content').text().trim();
-    var trIndex = $(this).closest('tr').index();
-    var tdIndex = $(this).closest('td').index();
+function checkFlag(trIndex, tdIndex) {
     var point = [];
     var flag = 0;
 
@@ -142,11 +134,32 @@ function dbClickMap() {
         point.push(p);
     }
 
-    if (pNumber == flag) {
-        var trIndex = $(this).closest('tr').index();
-        var tdIndex = $(this).closest('td').index();
+    return {flag,point};
+}
 
+function dbClickMap() {
+    if ($(this).find('#content').is(':hidden')) {
+        return;
+    }
+
+    var pNumber = $(this).find('#content').text().trim();
+    var trIndex = $(this).closest('tr').index();
+    var tdIndex = $(this).closest('td').index();
+    var check = checkFlag(trIndex, tdIndex);
+    if (pNumber == check.flag) {
         aroundPoint(trIndex, tdIndex);
+    } else {
+         $.each(check.point, function() {
+            if ($(this).find('#content').is(':hidden')) {
+                 $(this).addClass('checkArount');
+            }
+         });
+
+        setTimeout(function () {
+            $.each(check.point, function() {
+                $(this).removeClass();
+            });
+        }, 250);
     }
 
 }
@@ -158,6 +171,19 @@ function clickMap() {
     }
 
     if ($(this).find('#content').is(':visible')) {
+        var pNumber = $(this).find('#content').text().trim();
+        var trIndex = $(this).closest('tr').index();
+        var tdIndex = $(this).closest('td').index();
+        var check = checkFlag(trIndex, tdIndex);
+        var point = $(this);
+
+        if (pNumber != check.flag) {
+                point.addClass('checkArount');
+
+            setTimeout(function () {
+                point.removeClass();
+            }, 250);
+        }
         return;
     }
 
