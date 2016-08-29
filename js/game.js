@@ -253,17 +253,7 @@ function aroundPoint(trIndex, tdIndex) {
     if (trIndex != 0) {
         // 上
         p = $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex);
-        if (p.find('#content').text().trim() == '') {
-            zeroPoint.push(p);
-        } else {
-            point.push(p);
-        }
-
-
-        // 判斷是否為最左側
-        if (tdIndex != 0) {
-            // 左上
-            p = $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex-1);
+        if (p.find('#content').is(':hidden')) {
             if (p.find('#content').text().trim() == '') {
                 zeroPoint.push(p);
             } else {
@@ -271,12 +261,28 @@ function aroundPoint(trIndex, tdIndex) {
             }
         }
 
+
+        // 判斷是否為最左側
+        if (tdIndex != 0) {
+            // 左上
+            p = $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex-1);
+            if (p.find('#content').is(':hidden')) {
+                if (p.find('#content').text().trim() == '') {
+                    zeroPoint.push(p);
+                } else {
+                    point.push(p);
+                }
+            }
+        }
+
         // 右上
         p = $('#showTable tr').eq(trIndex-1).find('td').eq(tdIndex+1);
-        if (p.find('#content').text().trim() == '') {
-            zeroPoint.push(p);
-        } else {
-            point.push(p);
+        if (p.find('#content').is(':hidden')) {
+            if (p.find('#content').text().trim() == '') {
+                zeroPoint.push(p);
+            } else {
+                point.push(p);
+            }
         }
     }
 
@@ -284,13 +290,45 @@ function aroundPoint(trIndex, tdIndex) {
     if (tdIndex != 0) {
         // 左
         p = $('#showTable tr').eq(trIndex).find('td').eq(tdIndex-1);
+        if (p.find('#content').is(':hidden')) {
+            if (p.find('#content').text().trim() == '') {
+                zeroPoint.push(p);
+            } else {
+                point.push(p);
+            }
+        }
+        // 左下
+        p = $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex-1);
+        if (p.find('#content').is(':hidden')) {
+            if (p.find('#content').text().trim() == '') {
+                zeroPoint.push(p);
+            } else {
+                point.push(p);
+            }
+        }
+    }
+
+    // 右
+    p = $('#showTable tr').eq(trIndex).find('td').eq(tdIndex+1);
+    if (p.find('#content').is(':hidden')) {
         if (p.find('#content').text().trim() == '') {
             zeroPoint.push(p);
         } else {
             point.push(p);
         }
-        // 左下
-        p = $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex-1);
+    }
+    // 右下
+    p = $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex+1);
+    if (p.find('#content').is(':hidden')) {
+        if (p.find('#content').text().trim() == '') {
+            zeroPoint.push(p);
+        } else {
+            point.push(p);
+        }
+    }
+    // 下
+    p = $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex);
+    if (p.find('#content').is(':hidden')) {
         if (p.find('#content').text().trim() == '') {
             zeroPoint.push(p);
         } else {
@@ -298,27 +336,6 @@ function aroundPoint(trIndex, tdIndex) {
         }
     }
 
-    // 右
-    p = $('#showTable tr').eq(trIndex).find('td').eq(tdIndex+1);
-    if (p.find('#content').text().trim() == '') {
-        zeroPoint.push(p);
-    } else {
-        point.push(p);
-    }
-    // 右下
-    p = $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex+1);
-    if (p.find('#content').text().trim() == '') {
-        zeroPoint.push(p);
-    } else {
-        point.push(p);
-    }
-    // 下
-    p = $('#showTable tr').eq(trIndex+1).find('td').eq(tdIndex);
-    if (p.find('#content').text().trim() == '') {
-        zeroPoint.push(p);
-    } else {
-        point.push(p);
-    }
 
     openAround(point);
     openZeroAround(zeroPoint);
@@ -353,7 +370,7 @@ function openZeroAround(point) {
         if ($(this).find('#flag').is(':hidden')) {
             if ($(this).find('#content').is(':hidden')) {
                 print(3, $(this));
-                openAround(aroundPoint($(this).closest('tr').index(), $(this).closest('td').index()));
+                aroundPoint($(this).closest('tr').index(), $(this).closest('td').index());
             }
         }
     });
