@@ -1,7 +1,12 @@
 $(document).ready(init);
 
+var clickCount = 0;
+
 function init() {
-    $('#start').click(setTable);
+    $('#start').click(function () {
+        $('#showTable').html("Loading...");
+        setTable();
+    });
 
     $('#primary').click(level);
     $('#middle').click(level);
@@ -27,7 +32,6 @@ function level() {
 }
 
 function setTable() {
-    $('#showTable').html("Loading...");
     $.get("CreateGame.php?row=" + $("#row").val() + "&column=" + $("#column").val() + "&m=" + $("#m").val(), function(data){
         $('#showTable').html(data);
         $('#showTable td').click(clickMap);
@@ -212,7 +216,12 @@ function clickMap() {
     }
 
     if ($(this).find('#content').text().trim() == 'M') {
-        checkOver($(this));
+        if (clickCount == 0) {
+            setTable();
+        } else {
+            checkOver($(this));
+        }
+        return;
     }
 
     if (checkPass()) {
@@ -225,6 +234,8 @@ function clickMap() {
         $("#myModal .modal-title").text('過關');
         $("#myModal").modal('show');
     }
+
+    clickCount++;
 }
 
 function checkPass() {
