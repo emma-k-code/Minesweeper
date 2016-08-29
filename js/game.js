@@ -4,6 +4,7 @@ var clickCount = 0;
 
 function init() {
     $('#start').click(function () {
+        clickCount = 0;
         $('#showTable').html("Loading...");
         setTable();
     });
@@ -46,6 +47,25 @@ function setTable() {
                 }
             }
         });
+	});
+}
+
+function resetTable(trIndex, tdIndex) {
+    $.get("CreateGame.php?row=" + $("#row").val() + "&column=" + $("#column").val() + "&m=" + $("#m").val(), function(data){
+        $('#showTable').html(data);
+        $('#showTable td').click(clickMap);
+        $('#showTable td').dblclick(dbClickMap);
+        $('#showTable td').hover(onMap, outMap);
+        $('#showTable td').mousedown(function(event) {
+            if ($(this).find('#content').is(':hidden')) {
+                switch (event.which) {
+                    case 3:
+                        $(this).find('#flag').toggle();
+                        break;
+                }
+            }
+        });
+        $('#showTable tr').eq(trIndex).find('td').eq(tdIndex).click();
 	});
 }
 
@@ -191,12 +211,29 @@ function clickMap() {
         return;
     }
 
-    gameover = true;
+    var gameover = true;
     $('#showTable td').each(function() {
         if ($(this).find('#content').is(':hidden')) {
             gameover = false;
         }
     });
+
+    if (gameover) {
+        return;
+    }
+
+    if ($(this).find('#content').text().trim() == 'M') {
+        if (clickCount == 0) {
+            var trIndex = $(this).closest('tr').index();
+            var tdIndex = $(this).closest('td').index();
+            resetTable(trIndex, tdIndex);
+            clickCount++;
+            return;
+        } else {
+            checkOver($(this));
+            gameover = true;
+        }
+    }
 
     if (gameover) {
         return;
@@ -213,15 +250,6 @@ function clickMap() {
         print(3, $(this));
 
         aroundPoint(trIndex, tdIndex);
-    }
-
-    if ($(this).find('#content').text().trim() == 'M') {
-        if (clickCount == 0) {
-            setTable();
-        } else {
-            checkOver($(this));
-        }
-        return;
     }
 
     if (checkPass()) {
